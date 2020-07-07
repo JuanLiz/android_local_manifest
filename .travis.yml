@@ -59,7 +59,7 @@ script:
     - cd /android
     - repo init -u git://github.com/PsychoOS/manifest.git -b Psycho-N
     - sudo sh -c "mkdir .repo/local_manifests && chown $(whoami):$(whoami) .repo/local_manifests" 
-    - wget https://github.com/JuanLiz/android_local_manifest/raw/master/kanas.xml -O .repo/local_manifests/kanas.xml
+    - wget https://github.com/JuanLiz/android_local_manifest/raw/master/kanas.xml -O .repo/local_manifests/roomservice.xml
     - repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
     - source build/envsetup.sh
     - breakfast kanas
