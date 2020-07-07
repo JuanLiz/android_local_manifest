@@ -1,0 +1,69 @@
+
+language: minimal
+
+cache:
+  directories:
+  - $HOME/.ccache
+
+env:
+  global:
+    - PATH=~/bin:$PATH	
+    - USE_CCACHE=true
+    - LC_ALL=C
+
+addons:
+  apt:
+    packages:
+    - openjdk-8-jdk 
+    - android-tools-adb 
+    - bc 
+    - bison 
+    - build-essential
+    - curl 
+    - flex 
+    - g++-multilib 
+    - gcc-multilib 
+    - gnupg
+    - gperf 
+    - imagemagick
+    - lib32ncurses5-dev 
+    - lib32readline-dev 
+    - lib32z1-dev
+    - libesd0-dev 
+    - liblz4-tool
+    - libncurses5-dev
+    - libsdl1.2-dev 
+    - libssl-dev 
+    - libwxgtk3.0-dev 
+    - libxml2
+    - libxml2-utils
+    - lzop
+    - pngcrush
+    - rsync
+    - schedtool
+    - squashfs-tools
+    - xsltproc
+    - yasm
+    - zip
+    - zlib1g-dev
+    - git-core
+    - python
+
+before_install:
+    - sudo sh -c "curl https://storage.googleapis.com/git-repo-downloads/repo > /bin/repo && chmod a+x /bin/repo"
+
+script:
+    - ccache -M 30G
+    - git config --global color.ui false
+    - sudo sh -c "mkdir /android && chown $(whoami):$(whoami) /android" 
+    - cd /android
+    - repo init -u git://github.com/PsychoOS/manifest.git -b Psycho-N
+    - sudo sh -c "mkdir .repo/local_manifests && chown $(whoami):$(whoami) .repo/local_manifests" 
+    - wget https://github.com/JuanLiz/android_local_manifest/raw/master/kanas.xml -O .repo/local_manifests/kanas.xml
+    - repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
+    - source build/envsetup.sh
+    - breakfast kanas
+    - croot
+    - brunch kanas
+    - tar -czf outputkanasaex.tar.gz /build/out/target/product/kanas
+    - curl --upload-file outputkanasaex.tar.gz https://transfer.sh/outputkanasaex.tar.gz
