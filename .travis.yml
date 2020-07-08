@@ -53,7 +53,7 @@ before_install:
 script:
     - ccache -M 50G
     - git config --global color.ui false
-    - sudo sh -c "mkdir /android && chown $(whoami):$(whoami) /android && cd /android
+    - sudo sh -c "mkdir /android && chown $(whoami):$(whoami) /android && cd /android"
     - repo init -u git://github.com/PsychoOS/manifest.git -b Psycho-N
     - repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
     - mkdir .repo/local_manifests && cp -r $TRAVIS_BUILD_DIR/kanas.xml .repo/local_manifests/
