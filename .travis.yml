@@ -7,10 +7,8 @@ cache:
 
 env:
   global:
-    - PATH=~/bin:$PATH	
     - USE_CCACHE=true
-    - LC_ALL=C
-
+    
 addons:
   apt:
     packages:
@@ -53,13 +51,12 @@ before_install:
     - sudo sh -c "curl https://storage.googleapis.com/git-repo-downloads/repo > /bin/repo && chmod a+x /bin/repo"
 
 script:
-    - ccache -M 30G
+    - ccache -M 50G
     - git config --global color.ui false
-    - sudo sh -c "mkdir /android && chown $(whoami):$(whoami) /android" 
-    - cd /android
+    - sudo sh -c "mkdir /android && chown $(whoami):$(whoami) /android && cd /android
     - repo init -u git://github.com/PsychoOS/manifest.git -b Psycho-N
-    - sudo sh -c "mkdir .repo/local_manifests && chown $(whoami):$(whoami) .repo/local_manifests" 
-    - wget https://github.com/JuanLiz/android_local_manifest/raw/master/kanas.xml -O .repo/local_manifests/roomservice.xml
+    - repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
+    - mkdir .repo/local_manifests && cp -r $TRAVIS_BUILD_DIR/kanas.xml .repo/local_manifests
     - repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
     - source build/envsetup.sh
     - breakfast kanas
