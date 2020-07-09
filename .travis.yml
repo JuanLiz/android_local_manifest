@@ -59,8 +59,8 @@ script:
     - mkdir .repo/local_manifests && cp -r $TRAVIS_BUILD_DIR/kanas.xml .repo/local_manifests/
     - repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
     - source build/envsetup.sh
-    - breakfast kanas
+    - lunch lineage_kanas-userdebug
     - croot
-    - brunch kanas
+    - brunch lineage_kanas-userdebug
     - tar -czf outputkanasaex.tar.gz /build/out/target/product/kanas
     - curl --upload-file outputkanasaex.tar.gz https://transfer.sh/outputkanasaex.tar.gz
