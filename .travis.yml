@@ -58,6 +58,8 @@ script:
     - repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
     - mkdir .repo/local_manifests && cp -r $TRAVIS_BUILD_DIR/kanas.xml .repo/local_manifests/
     - repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
+    - rm -rf /device/samsung/kanas/vendorsetup.sh
+    - cp -r $TRAVIS_BUILD_DIR/vendorsetup.sh device/samsung/kanas
     - source build/envsetup.sh
     - lunch lineage_kanas-userdebug
     - croot
