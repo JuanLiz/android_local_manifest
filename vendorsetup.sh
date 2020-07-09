@@ -1,0 +1,4 @@
+
+add_lunch_combo lineage_kanas-user
+add_lunch_combo lineage_kanas-userdebug
+add_lunch_combo lineage_kanas-eng
